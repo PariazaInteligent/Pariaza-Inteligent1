@@ -1,0 +1,24 @@
+{
+  "short_name": "Pariaza Inteligent",
+  "name": "Banca Comună de Investiții de la Pariaza Inteligent",
+  "icons": [
+    {
+      "src": "/icon-192.svg",
+      "type": "image/svg+xml",
+      "sizes": "192x192",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon-512.svg",
+      "type": "image/svg+xml",
+      "sizes": "512x512",
+      "purpose": "any maskable"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "scope": "/",
+  "theme_color": "#1e3a8a",
+  "background_color": "#0f172a",
+  "description": "Platformă pentru gestionarea unei bănci comune de pariuri sportive."
+}
