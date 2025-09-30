@@ -1,0 +1,97 @@
+[
+ {
+    "id": "admin_global_001",
+    "email": "admin@pariazainteligent.ro",
+    "password": "admin",
+    "role": "ADMIN",
+    "name": "Admin Principal",
+    "avatar": "https://i.ibb.co/zgtmkSY/IMG-4094-1.webp",
+    "isGlobalAdmin": true,
+    "isActive": true,
+    "profileData": {
+      "investedAmount": 0,
+      "totalProfitEarned": 0,
+      "joinDate": "2025-08-28T10:00:00.000Z",
+      "investmentHistory": [],
+      "badges": []
+    },
+    "adminPermissions": {}
+  },
+  {
+    "id": "user_001",
+    "email": "tomizeimihaita@gmail.com",
+    "password": "user",
+    "role": "USER",
+    "name": "Pariaza Inteligent",
+    "avatar": "https://i.ibb.co/zgtmkSY/IMG-4094-1.webp",
+    "isActive": true,
+    "profileData": {
+      "investedAmount": 1000,
+      "totalProfitEarned": 91.57252000000003,
+      "currentGrossProfit": 91.57252000000003,
+      "platformFeePaid": 0,
+      "currentNetProfit": 91.57252000000003,
+      "joinDate": "2025-08-29T12:00:00.000Z",
+      "investmentHistory": [
+        {
+          "date": "2025-08-29T12:05:00.000Z",
+          "amount": 1000,
+          "type": "DEPOSIT"
+        },
+        {
+          "date": "2025-09-18T15:32:20.776Z",
+          "amount": 42.22500000000001,
+          "type": "PROFIT_PAYOUT"
+        },
+        {
+          "date": "2025-09-19T17:08:09.624Z",
+          "amount": 62.566520000000025,
+          "type": "PROFIT_PAYOUT"
+        },
+        {
+          "date": "2025-09-20T14:15:19.320Z",
+          "amount": -13.219000000000001,
+          "type": "PROFIT_PAYOUT"
+        }
+      ],
+      "badges": [
+        {
+          "badgeType": "FIRST_PROFIT",
+          "earnedAt": "2025-09-18T15:32:20.776Z",
+          "details": "Primul profit obținut"
+        },
+        {
+          "badgeType": "MILESTONE_INVESTMENT_1K",
+          "earnedAt": "2025-08-29T12:05:00.000Z",
+          "details": "Total investit a depășit 1,000 EUR"
+        },
+        {
+          "badgeType": "PLATFORM_VETERAN_30_DAYS",
+          "earnedAt": "2025-09-28T12:00:00.000Z",
+          "details": "Activ de peste 30 de zile"
+        }
+      ],
+      "dashboardWidgetsConfig": []
+    }
+  },
+  {
+    "id": "user_1750184862661_2r7nzea",
+    "name": "Test Investitor",
+    "email": "test@test.com",
+    "avatar": "https://picsum.photos/seed/default/100/100",
+    "role": "USER",
+    "isActive": true,
+    "password": "test",
+    "isGlobalAdmin": false,
+    "profileData": {
+      "investedAmount": 0,
+      "totalProfitEarned": 0,
+      "joinDate": "2025-08-29T12:01:00.000Z",
+      "investmentHistory": [],
+      "badges": [],
+      "currentGrossProfit": 0,
+      "platformFeePaid": 0,
+      "currentNetProfit": 0
+    }
+  }
+]

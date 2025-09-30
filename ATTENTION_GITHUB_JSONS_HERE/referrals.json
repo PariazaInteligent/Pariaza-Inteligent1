@@ -1,0 +1,12 @@
+[
+  {
+    "id": "ref_1750184862661_example",
+    "referrerUserId": "user_001",
+    "referredUserId": "user_1750184862661_2r7nzea",
+    "referralCodeUsed": "PARIA__1750",
+    "status": "COMPLETED",
+    "timestamp": "2025-06-17T18:27:42.661Z",
+    "completedTimestamp": "2025-06-17T18:27:42.661Z",
+    "rewardApplied": true
+  }
+]

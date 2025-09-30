@@ -1,0 +1,34 @@
+[
+  {
+    "key": "TELEGRAM_USERNAME",
+    "value": "Pariaza_Inteligent",
+    "label": "Nume Utilizator Telegram Admin",
+    "description": "Numele de utilizator Telegram afișat pentru contact pe pagina de login.",
+    "type": "text",
+    "isPublic": true
+  },
+  {
+    "key": "TELEGRAM_PREDEFINED_MESSAGE",
+    "value": "Bună ziua, aș dori să îmi creez un cont pe platforma Banca Comună de Investiții și am nevoie de ajutor.",
+    "label": "Mesaj Predefinit Contact Telegram",
+    "description": "Mesajul precompletat când un utilizator contactează adminul pe Telegram de pe pagina de login.",
+    "type": "textarea",
+    "isPublic": true
+  },
+  {
+    "key": "UI_TEXT_TAGLINE",
+    "value": "Pariaza Inteligent",
+    "label": "Slogan Platformă (Tagline)",
+    "description": "Sloganul principal afișat pe pagina de pornire, sub numele aplicației.",
+    "type": "text",
+    "isPublic": true
+  },
+  {
+    "key": "UI_TEXT_HOMEPAGE_WELCOME_MESSAGE",
+    "value": "Platforma ta dedicată pentru investiții inteligente în pariuri sportive. Maximizează-ți potențialul alături de o comunitate de investitori avizați.",
+    "label": "Mesaj Întâmpinare Pagina Principală",
+    "description": "Mesajul detaliat de întâmpinare afișat pe pagina de pornire.",
+    "type": "textarea",
+    "isPublic": true
+  }
+]
