@@ -22,7 +22,7 @@ jobs:
           node-version: 20
           cache: 'npm'
       - run: npm ci
-      - run: npm run build   # foloseste base:'/' din vite.config.ts
+      - run: npm run build
       - run: echo "pariazainteligent.ro" > dist/CNAME
       - uses: actions/upload-pages-artifact@v3
         with:
