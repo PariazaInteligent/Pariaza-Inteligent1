@@ -1,4 +1,5 @@
 name: Deploy to GitHub Pages
+
 on:
   push:
     branches: [ main ]
@@ -16,24 +17,32 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-     - uses: actions/setup-node@v4
-  with:
-    node-version: 20
-    cache: 'npm'
+      - name: Checkout
+        uses: actions/checkout@v4
 
-# dacă există package-lock, folosește ci; altfel, install
-- run: |
-    if [ -f package-lock.json ]; then
-      npm ci
-    else
-      npm install
-    fi
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
 
-- run: npm run build
-- run: echo "pariazainteligent.ro" > dist/CNAME
+      # Instalează dependențele (merge și cu și fără package-lock.json)
+      - name: Install deps
+        run: |
+          if [ -f package-lock.json ]; then
+            npm ci
+          else
+            npm install
+          fi
 
-      - uses: actions/upload-pages-artifact@v3
+      - name: Build
+        run: npm run build
+
+      - name: Add CNAME
+        run: echo "pariazainteligent.ro" > dist/CNAME
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
         with:
           path: dist
 
@@ -43,5 +52,6 @@ jobs:
     environment:
       name: github-pages
     steps:
-      - id: deployment
+      - name: Deploy to GitHub Pages
+        id: deployment
         uses: actions/deploy-pages@v4
