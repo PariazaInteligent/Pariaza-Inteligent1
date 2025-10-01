@@ -1,53 +1,38 @@
-name: Build and Deploy to GitHub Pages
+name: Deploy to GitHub Pages
 on:
   push:
-    branches: ["main"]
-  workflow_dispatch:
+    branches: [ main ]
+
 permissions:
-  contents: write
+  contents: read
   pages: write
   id-token: write
+
 concurrency:
   group: "pages"
-  cancel-in-progress: false
+  cancel-in-progress: true
+
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
-          node-version: '20'
-      - name: Install dependencies
-        run: npm install
-      - name: Build
-        run: npm run build
-      - name: Copy dist to docs
-        run: |
-          rm -rf docs
-          cp -r dist docs
-      - name: Commit and push docs folder
-        run: |
-          git config --local user.email "github-actions[bot]@users.noreply.github.com"
-          git config --local user.name "github-actions[bot]"
-          git add docs
-          git commit -m "chore: Update docs from dist build" || echo "No changes to commit"
-          git push
-      - name: Setup Pages
-        uses: actions/configure-pages@v4
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
+          node-version: 20
+          cache: 'npm'
+      - run: npm ci
+      - run: npm run build   # foloseste base:'/' din vite.config.ts
+      - run: echo "pariazainteligent.ro" > dist/CNAME
+      - uses: actions/upload-pages-artifact@v3
         with:
-          path: './docs'
+          path: dist
+
   deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     needs: build
+    environment:
+      name: github-pages
     steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
+      - id: deployment
         uses: actions/deploy-pages@v4
