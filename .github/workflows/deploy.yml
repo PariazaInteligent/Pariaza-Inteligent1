@@ -17,13 +17,22 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: 'npm'
-      - run: npm ci
-      - run: npm run build
-      - run: echo "pariazainteligent.ro" > dist/CNAME
+     - uses: actions/setup-node@v4
+  with:
+    node-version: 20
+    cache: 'npm'
+
+# dacă există package-lock, folosește ci; altfel, install
+- run: |
+    if [ -f package-lock.json ]; then
+      npm ci
+    else
+      npm install
+    fi
+
+- run: npm run build
+- run: echo "pariazainteligent.ro" > dist/CNAME
+
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist
