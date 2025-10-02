@@ -1,2 +1,22 @@
-
-[]
+[
+  {
+    "id": "usermsg_test_1760000000002",
+    "userId": "user_001",
+    "title": "Test Mesaj Personal - Verificare Structură",
+    "content": "Acesta este un mesaj de test pentru utilizatorul `user_001` pentru a verifica tabelul de mesaje. Motiv: testare tabel `userMessages`.",
+    "createdAt": "2025-10-01T11:00:00.000Z",
+    "isRead": false,
+    "type": "INFO",
+    "linkTo": "/user/dashboard"
+  },
+  {
+    "id": "usermsg_test_1760000000003",
+    "userId": "user_001",
+    "title": "Test Alertă Acțiune Necesară",
+    "content": "Mesaj de test pentru a verifica tipul 'ACTION_REQUIRED'. Motiv: testare `enum` pentru `UserMessageType`.",
+    "createdAt": "2025-10-01T11:05:00.000Z",
+    "isRead": true,
+    "type": "ACTION_REQUIRED",
+    "linkTo": "/user/profil"
+  }
+]

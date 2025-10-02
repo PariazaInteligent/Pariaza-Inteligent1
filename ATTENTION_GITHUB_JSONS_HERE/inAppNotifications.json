@@ -1,1 +1,38 @@
-[]
+[
+  {
+    "id": "inapp_test_1760000000010",
+    "userId": "user_001",
+    "createdAt": "2025-10-02T09:00:00.000Z",
+    "type": "SUCCESS",
+    "message": "Test notificare succes: Investiția ta a fost aprobată. Motiv: testare tabel `inAppNotifications`.",
+    "isRead": false,
+    "linkTo": "/user/investitii"
+  },
+  {
+    "id": "inapp_test_1760000000011",
+    "userId": "ALL",
+    "createdAt": "2025-10-02T10:00:00.000Z",
+    "type": "WARNING",
+    "message": "Test notificare avertisment: Mentenanță programată. Motiv: testare `enum` pentru `NotificationType`.",
+    "isRead": false,
+    "linkTo": "/admin/calendar"
+  },
+  {
+    "id": "inapp_test_1760000000012",
+    "userId": "user_001",
+    "createdAt": "2025-09-30T14:30:00.000Z",
+    "type": "INFO",
+    "message": "Test notificare info: Ai deblocat un nou ecuson! Motiv: testare `isRead` flag.",
+    "isRead": true,
+    "linkTo": "/user/profil"
+  },
+  {
+    "id": "inapp_test_1760000000013",
+    "userId": "user_1750184862661_2r7nzea",
+    "createdAt": "2025-10-01T18:00:00.000Z",
+    "type": "ERROR",
+    "message": "Test notificare eroare: Cererea ta de retragere a eșuat. Motiv: testare pentru al doilea user.",
+    "isRead": false,
+    "linkTo": "/user/retrageri"
+  }
+]

@@ -1,0 +1,27 @@
+[
+  {
+    "id": "goal_test_1760000000008",
+    "userId": "user_001",
+    "name": "Test Obiectiv - Fond de vacanță",
+    "goalType": "TARGET_BALANCE",
+    "targetAmount": 2000,
+    "startDate": "2025-10-01T11:25:00.000Z",
+    "targetDate": "2026-06-01",
+    "status": "ACTIVE",
+    "notes": "Obiectiv de test pentru a verifica tabelul de goals. Motiv: testare tabel `investmentGoals`.",
+    "currentAmountAtCreation": 1091.57
+  },
+  {
+    "id": "goal_test_1760000000009",
+    "userId": "user_001",
+    "name": "Test Obiectiv Completat - Profit 200 EUR",
+    "goalType": "TARGET_PROFIT_TOTAL",
+    "targetAmount": 200,
+    "startDate": "2025-08-01T10:00:00.000Z",
+    "targetDate": "2025-12-31",
+    "status": "COMPLETED",
+    "completedDate": "2025-09-25T14:00:00.000Z",
+    "notes": "Obiectiv de test pentru a verifica statusul 'COMPLETED'. Motiv: testare `enum` pentru `GoalStatus`.",
+    "currentAmountAtCreation": 0
+  }
+]

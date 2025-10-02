@@ -8,24 +8,37 @@ import {
     UserGroupIcon, CheckBadgeIcon, BookOpenIcon, BanknotesIcon
 } from "./components/ui/Icons";
 
-// Placeholder for GitHub raw content URLs.
+// Adresa de bază a noului API. Presupune că fișierul data.php se află într-un folder 'api' la rădăcina site-ului.
+const API_BASE_URL = '/api/data.php';
+
+// Noile endpoint-uri pentru a prelua datele din baza de date prin scriptul PHP.
+export const API_ENDPOINTS = {
+  globalStats: `${API_BASE_URL}?endpoint=globalStats`,
+  users: `${API_BASE_URL}?endpoint=users`,
+  transactions: `${API_BASE_URL}?endpoint=transactions`,
+  dailyHistory: `${API_BASE_URL}?endpoint=dailyHistory`,
+  announcements: `${API_BASE_URL}?endpoint=announcements`,
+  userMessages: `${API_BASE_URL}?endpoint=userMessages`,
+  investmentAlerts: `${API_BASE_URL}?endpoint=investmentAlerts`,
+  feedback: `${API_BASE_URL}?endpoint=feedback`,
+  platformSettings: `${API_BASE_URL}?endpoint=platformSettings`,
+  referrals: `${API_BASE_URL}?endpoint=referrals`,
+  calendarEvents: `${API_BASE_URL}?endpoint=calendarEvents`,
+  investmentGoals: `${API_BASE_URL}?endpoint=investmentGoals`,
+  bets: `${API_BASE_URL}?endpoint=bets`,
+};
+
+// FIX: Added GITHUB_DATA_URLS which was missing. It's referenced for initial platform settings.
+// These URLs are likely legacy/placeholders as data fetching now uses API_ENDPOINTS.
+const GITHUB_BASE_REPO_URL = 'https://raw.githubusercontent.com/your-username/your-repo/main/data';
 export const GITHUB_DATA_URLS = {
-  globalStats: 'https://raw.githubusercontent.com/PariazaInteligent/banca/main/globalStats.json',
-  users: 'https://raw.githubusercontent.com/PariazaInteligent/banca/main/users.json',
-  transactions: 'https://raw.githubusercontent.com/PariazaInteligent/banca/main/transactions.json',
-  dailyHistory: 'https://raw.githubusercontent.com/PariazaInteligent/banca/main/dailyHistory.json',
-  announcements: 'https://raw.githubusercontent.com/PariazaInteligent/banca/refs/heads/main/announcements.json', 
-  userMessages: 'https://raw.githubusercontent.com/PariazaInteligent/banca/refs/heads/main/userMessages.json', 
-  investmentAlerts: 'https://raw.githubusercontent.com/PariazaInteligent/banca/refs/heads/main/investmentAlerts.json', 
-  feedback: 'https://raw.githubusercontent.com/PariazaInteligent/banca/main/feedback.json', 
-  platformSettings: 'https://raw.githubusercontent.com/PariazaInteligent/banca/main/platformSettings.json', 
-  referrals: 'https://raw.githubusercontent.com/PariazaInteligent/banca/main/referrals.json', 
-  calendarEvents: 'https://raw.githubusercontent.com/PariazaInteligent/banca/main/calendarEvents.json',
-  investmentGoals: 'https://raw.githubusercontent.com/PariazaInteligent/banca/main/investmentGoals.json',
-  bets: 'https://raw.githubusercontent.com/PariazaInteligent/banca/main/bets.json',
+  globalStats: `${GITHUB_BASE_REPO_URL}/globalStats.json`,
+  users: `${GITHUB_BASE_REPO_URL}/users.json`,
+  transactions: `${GITHUB_BASE_REPO_URL}/transactions.json`,
+  dailyHistory: `${GITHUB_BASE_REPO_URL}/dailyHistory.json`,
+  bets: `${GITHUB_BASE_REPO_URL}/bets.json`,
 };
             
-export const PLACEHOLDER_GITHUB_URL_MESSAGE = "URL-ul pentru ${dataType} nu este configurat în constants.ts.";
 export const DEFAULT_AVATAR_URL = 'https://picsum.photos/seed/default/100/100';
 export const NOTIFICATION_TIMEOUT = 5000; // ms
 export const APP_VERSION = "1.5.0"; // Application version incremented
@@ -283,10 +296,10 @@ export const UI_TEXT_ROMANIAN = {
   densityCompact: "Compact",
   themePreferencesSaved: "Preferințele de interfață au fost salvate.",
   failedToSaveThemePreferences: "Salvarea preferințelor de interfață a eșuat.",
-  fetchDataError: "Eroare la preluarea datelor de pe GitHub. Verifică URL-urile din constants.ts și conexiunea la internet.",
+  fetchDataError: "Eroare la preluarea datelor de la API. Verifică scriptul PHP și conexiunea la baza de date.",
   githubDataDisclaimer: "Datele sunt preluate de pe GitHub. Asigură-te că URL-urile sunt corect configurate în fișierul constants.ts. Pentru persistența modificărilor efectuate în aplicație (ex: adăugare utilizator, aprobare cerere), exportă datele modificate și actualizează manual fișierele JSON corespunzătoare în repository-ul tău GitHub.",
   refreshData: "Reîmprospătează Datele",
-  dataRefreshed: "Datele au fost reîmprospătate de pe GitHub.",
+  dataRefreshed: "Datele au fost reîmprospătate de la API.",
   geminiAiAnalysis: "Analiză Inteligentă cu Gemini",
   geminiPromptLabel: "Întrebarea sau solicitarea ta pentru Gemini:",
   geminiSubmitButton: "Trimite la Gemini",

@@ -1,2 +1,20 @@
-
-[]
+[
+  {
+    "id": "calevent_test_1760000000006",
+    "date": "2025-10-15",
+    "title": "Test Eveniment Sportiv - Finala Champions League",
+    "type": "SPORT_EVENT",
+    "description": "Eveniment de test pentru calendar. Motiv: testare structură tabel `calendarEvents`.",
+    "createdByAdminId": "admin_global_001",
+    "createdAt": "2025-10-01T11:15:00.000Z"
+  },
+  {
+    "id": "calevent_test_1760000000007",
+    "date": "2025-10-20",
+    "title": "Test Mentenanță Programată",
+    "type": "MAINTENANCE",
+    "description": "Eveniment de test pentru mentenanță. Motiv: testare `enum` pentru `CalendarEventType`.",
+    "createdByAdminId": "admin_global_001",
+    "createdAt": "2025-10-01T11:20:00.000Z"
+  }
+]

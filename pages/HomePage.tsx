@@ -2,7 +2,7 @@ import React, { useMemo, useState, useEffect } from 'react';
 import { Link, NavLink } from 'react-router-dom'; 
 import { useAuth } from '../contexts/AuthContext';
 import { useData } from '../contexts/DataContext';
-import { UI_TEXT_ROMANIAN, GITHUB_DATA_URLS, BADGE_DEFINITIONS } from '../constants'; 
+import { UI_TEXT_ROMANIAN, BADGE_DEFINITIONS } from '../constants'; 
 import Card from '../components/ui/Card';
 import Button from '../components/ui/Button';
 import { ChartBarIcon, UserCircleIcon, ShieldCheckIcon, BanknotesIcon, TrophyIcon, CheckBadgeIcon, SparklesIcon, ArrowLeftEndOnRectangleIcon } from '../components/ui/Icons';
@@ -278,24 +278,6 @@ const HomePage: React.FC = () => {
           <li><strong>Transparență:</strong> Toate statisticile și tranzacțiile sunt vizibile (în funcție de rol).</li>
         </ol>
       </Card>
-      
-      {user && user.role === Role.ADMIN && (
-        <Card title={UI_TEXT_ROMANIAN.githubDataDisclaimer.split('.')[0]} bodyClassName="text-sm">
-           <p className="text-neutral-600 dark:text-neutral-400">
-              {UI_TEXT_ROMANIAN.githubDataDisclaimer}
-           </p>
-           <p className="mt-2 text-neutral-600 dark:text-neutral-400">
-              Actualele URL-uri configurate:
-              <ul className="list-disc list-inside ml-4 mt-1">
-                  <li>Statistici Globale: <code className="text-xs bg-neutral-200 dark:bg-neutral-700 p-1 rounded">{GITHUB_DATA_URLS.globalStats || "neconfigurat"}</code></li>
-                  <li>Utilizatori: <code className="text-xs bg-neutral-200 dark:bg-neutral-700 p-1 rounded">{GITHUB_DATA_URLS.users || "neconfigurat"}</code></li>
-                  <li>Tranzacții: <code className="text-xs bg-neutral-200 dark:bg-neutral-700 p-1 rounded">{GITHUB_DATA_URLS.transactions || "neconfigurat"}</code></li>
-                  <li>Istoric Zilnic: <code className="text-xs bg-neutral-200 dark:bg-neutral-700 p-1 rounded">{GITHUB_DATA_URLS.dailyHistory || "neconfigurat"}</code></li>
-                  <li>Setări Platformă: <code className="text-xs bg-neutral-200 dark:bg-neutral-700 p-1 rounded">{GITHUB_DATA_URLS.platformSettings || "neconfigurat"}</code></li>
-              </ul>
-           </p>
-        </Card>
-      )}
     </div>
   );
 };

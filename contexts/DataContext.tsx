@@ -1,7 +1,7 @@
 import React, { createContext, useState, useContext, useEffect, useCallback, ReactNode } from 'react';
 import { AppData, GlobalStats, User, Transaction, DailyHistoryRecord, Role, TransactionType, TransactionStatus, NotificationType, Announcement, UserMessage, MessageImportance, UserMessageType, InvestmentAlert, InvestmentAlertConditionType, DashboardWidgetConfig, BadgeType, UserBadge, FeedbackItem, FeedbackCategory, PlatformSetting, PlatformSettingKey, PlatformSettingsData, AuditDetail, TransactionDetails, Referral, ReferralStatus, CalendarEvent, CalendarEventType, AccentPaletteKey, InterfaceDensity, InvestmentGoal, GoalType, GoalStatus, Bet, BetStatus, BetType, FeedbackStatus, CookieConsentData } from '../types'; 
 import { dataService } from '../services/dataService';
-import { GITHUB_DATA_URLS, UI_TEXT_ROMANIAN, PLACEHOLDER_GITHUB_URL_MESSAGE, BADGE_DEFINITIONS, ADMIN_TELEGRAM_USERNAME_FALLBACK, TELEGRAM_PREDEFINED_MESSAGE_FALLBACK, AVAILABLE_ADMIN_PERMISSIONS, ACCENT_COLOR_PALETTES, INTERFACE_DENSITY_OPTIONS } from '../constants';
+import { API_ENDPOINTS, UI_TEXT_ROMANIAN, BADGE_DEFINITIONS, ADMIN_TELEGRAM_USERNAME_FALLBACK, TELEGRAM_PREDEFINED_MESSAGE_FALLBACK, AVAILABLE_ADMIN_PERMISSIONS, ACCENT_COLOR_PALETTES, INTERFACE_DENSITY_OPTIONS } from '../constants';
 import { useNotifications } from './NotificationContext';
 import { useAuth } from './AuthContext';
 import { 
@@ -108,97 +108,99 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const { addNotification } = useNotifications();
   const { user: authUser } = useAuth();
 
-  const isPlaceholderUrl = (url: string) => !url || url.startsWith('PLACEHOLDER_URL') || url.includes("PariazaInteligent/banca/main/undefined");
-
-
   const fetchData = useCallback(async (showNotification: boolean = false) => {
     setLoading(true);
     setError(null);
-    let allDataFetchedSuccessfully = true;
-    let missingConfigs: string[] = [];
-
     try {
-      const dataPromises = [
-        isPlaceholderUrl(GITHUB_DATA_URLS.globalStats) ? Promise.resolve(defaultInitialData.globalStats) : dataService.fetchGlobalStats(GITHUB_DATA_URLS.globalStats),
-        isPlaceholderUrl(GITHUB_DATA_URLS.users) ? Promise.resolve(defaultInitialData.users) : dataService.fetchUsers(GITHUB_DATA_URLS.users),
-        isPlaceholderUrl(GITHUB_DATA_URLS.transactions) ? Promise.resolve(defaultInitialData.transactions) : dataService.fetchTransactions(GITHUB_DATA_URLS.transactions),
-        isPlaceholderUrl(GITHUB_DATA_URLS.dailyHistory) ? Promise.resolve(defaultInitialData.dailyHistory) : dataService.fetchDailyHistory(GITHUB_DATA_URLS.dailyHistory),
-        isPlaceholderUrl(GITHUB_DATA_URLS.announcements) ? Promise.resolve(defaultInitialData.announcements) : dataService.fetchAnnouncements(GITHUB_DATA_URLS.announcements),
-        isPlaceholderUrl(GITHUB_DATA_URLS.userMessages) ? Promise.resolve(defaultInitialData.userMessages) : dataService.fetchUserMessages(GITHUB_DATA_URLS.userMessages),
-        isPlaceholderUrl(GITHUB_DATA_URLS.investmentAlerts) ? Promise.resolve(defaultInitialData.investmentAlerts) : dataService.fetchInvestmentAlerts(GITHUB_DATA_URLS.investmentAlerts), 
-        isPlaceholderUrl(GITHUB_DATA_URLS.feedback) ? Promise.resolve(defaultInitialData.feedback) : dataService.fetchFeedback(GITHUB_DATA_URLS.feedback),
-        isPlaceholderUrl(GITHUB_DATA_URLS.platformSettings) ? Promise.resolve(defaultInitialData.platformSettings) : dataService.fetchPlatformSettings(GITHUB_DATA_URLS.platformSettings),
-        isPlaceholderUrl(GITHUB_DATA_URLS.referrals) ? Promise.resolve(defaultInitialData.referrals) : dataService.fetchReferrals(GITHUB_DATA_URLS.referrals),
-        isPlaceholderUrl(GITHUB_DATA_URLS.calendarEvents) ? Promise.resolve(defaultInitialData.calendarEvents) : dataService.fetchCalendarEvents(GITHUB_DATA_URLS.calendarEvents),
-        isPlaceholderUrl(GITHUB_DATA_URLS.investmentGoals) ? Promise.resolve(defaultInitialData.investmentGoals) : dataService.fetchInvestmentGoals(GITHUB_DATA_URLS.investmentGoals),
-        isPlaceholderUrl(GITHUB_DATA_URLS.bets) ? Promise.resolve(defaultInitialData.bets) : dataService.fetchBets(GITHUB_DATA_URLS.bets),
-      ];
+      const [
+        fetchedGlobalStats, fetchedUsers, fetchedTransactions, fetchedDailyHistory,
+        fetchedAnnouncements, fetchedUserMessages, fetchedInvestmentAlerts, fetchedFeedback,
+        fetchedPlatformSettings, fetchedReferrals, fetchedCalendarEvents,
+        fetchedInvestmentGoals, fetchedBets
+      ] = await Promise.all([
+        dataService.fetchGlobalStats(API_ENDPOINTS.globalStats),
+        dataService.fetchUsers(API_ENDPOINTS.users),
+        dataService.fetchTransactions(API_ENDPOINTS.transactions),
+        dataService.fetchDailyHistory(API_ENDPOINTS.dailyHistory),
+        dataService.fetchAnnouncements(API_ENDPOINTS.announcements),
+        dataService.fetchUserMessages(API_ENDPOINTS.userMessages),
+        dataService.fetchInvestmentAlerts(API_ENDPOINTS.investmentAlerts),
+        dataService.fetchFeedback(API_ENDPOINTS.feedback),
+        dataService.fetchPlatformSettings(API_ENDPOINTS.platformSettings),
+        dataService.fetchReferrals(API_ENDPOINTS.referrals),
+        dataService.fetchCalendarEvents(API_ENDPOINTS.calendarEvents),
+        dataService.fetchInvestmentGoals(API_ENDPOINTS.investmentGoals),
+        dataService.fetchBets(API_ENDPOINTS.bets),
+      ]);
       
-      const dataTypeNames = ['Statistici Globale', 'Utilizatori', 'Tranzacții', 'Istoric Zilnic', 'Anunțuri', 'Mesaje Utilizatori', 'Alerte Investiții', 'Feedback', 'Setări Platformă', 'Recomandări', 'Evenimente Calendar', 'Obiective Investiții', 'Pariuri'];
-      const githubUrls = [
-        GITHUB_DATA_URLS.globalStats, GITHUB_DATA_URLS.users, GITHUB_DATA_URLS.transactions, 
-        GITHUB_DATA_URLS.dailyHistory, GITHUB_DATA_URLS.announcements, GITHUB_DATA_URLS.userMessages,
-        GITHUB_DATA_URLS.investmentAlerts, GITHUB_DATA_URLS.feedback, GITHUB_DATA_URLS.platformSettings,
-        GITHUB_DATA_URLS.referrals, GITHUB_DATA_URLS.calendarEvents, GITHUB_DATA_URLS.investmentGoals,
-        GITHUB_DATA_URLS.bets,
-      ];
+      // Post-processing for users to match the nested structure expected by the frontend.
+      // This is a temporary measure. Ideally, the API would return the correct structure.
+      const processedUsers = (fetchedUsers as any[]).map(dbUser => {
+        // Assume profileData fields might be returned flat from a simple SELECT *
+        const {
+            investedAmount, totalProfitEarned, currentGrossProfit, platformFeePaid, currentNetProfit,
+            joinDate, investmentHistory, badges, dashboardWidgetsConfig, contactPhone, address,
+            accentPalette, interfaceDensity, cookieConsent,
+            ...restOfUser
+        } = dbUser;
 
-      githubUrls.forEach((url, index) => {
-        if (isPlaceholderUrl(url)) missingConfigs.push(dataTypeNames[index]);
+        // Attempt to parse JSON string fields if they exist
+        let parsedPermissions = restOfUser.adminPermissions;
+        if(typeof parsedPermissions === 'string') {
+            try { parsedPermissions = JSON.parse(parsedPermissions); }
+            catch(e) { console.error(`Failed to parse adminPermissions for user ${dbUser.id}`, e); parsedPermissions = {}; }
+        }
+
+        return {
+            ...restOfUser,
+            adminPermissions: parsedPermissions,
+            profileData: {
+                investedAmount: Number(investedAmount) || 0,
+                totalProfitEarned: Number(totalProfitEarned) || 0,
+                currentGrossProfit: Number(currentGrossProfit) || 0,
+                platformFeePaid: Number(platformFeePaid) || 0,
+                currentNetProfit: Number(currentNetProfit) || 0,
+                joinDate: joinDate || new Date().toISOString(),
+                // These are likely in other tables and won't be in the flat user object.
+                // We initialize them as empty arrays to prevent crashes.
+                investmentHistory: [], 
+                badges: [],
+                dashboardWidgetsConfig: [],
+                contactPhone: contactPhone,
+                address: address,
+                accentPalette: accentPalette,
+                interfaceDensity: interfaceDensity,
+                cookieConsent: cookieConsent,
+            }
+        } as User;
       });
 
-      const results = await Promise.all(dataPromises.map(p => p.catch(e => {
-        allDataFetchedSuccessfully = false;
-        console.error("Error fetching a data part:", e);
-        return null; 
-      })));
 
-      const [fetchedGlobalStats, fetchedUsers, fetchedTransactions, fetchedDailyHistory, fetchedAnnouncements, fetchedUserMessages, fetchedInvestmentAlerts, fetchedFeedback, fetchedPlatformSettings, fetchedReferrals, fetchedCalendarEvents, fetchedInvestmentGoals, fetchedBets] = results;
-
-      if (!allDataFetchedSuccessfully && missingConfigs.length === dataTypeNames.length) { 
-        setError(UI_TEXT_ROMANIAN.fetchDataError + " Se folosesc date implicite pentru toate categoriile.");
-        addNotification(UI_TEXT_ROMANIAN.fetchDataError + " Se folosesc date implicite pentru toate categoriile.", NotificationType.WARNING, 7000);
-        setAppData(defaultInitialData as AppData); 
-      } else {
-        setAppData({
-          globalStats: (fetchedGlobalStats as GlobalStats | null) ?? defaultInitialData.globalStats!,
-          users: (fetchedUsers as User[] | null) ?? defaultInitialData.users!,
-          transactions: (fetchedTransactions as Transaction[] | null) ?? defaultInitialData.transactions!,
-          dailyHistory: (fetchedDailyHistory as DailyHistoryRecord[] | null) ?? defaultInitialData.dailyHistory!,
-          announcements: (fetchedAnnouncements as Announcement[] | null) ?? defaultInitialData.announcements!,
-          userMessages: (fetchedUserMessages as UserMessage[] | null) ?? defaultInitialData.userMessages!,
-          investmentAlerts: (fetchedInvestmentAlerts as InvestmentAlert[] | null) ?? defaultInitialData.investmentAlerts!,
-          feedback: (fetchedFeedback as FeedbackItem[] | null) ?? defaultInitialData.feedback!, 
-          platformSettings: (fetchedPlatformSettings as PlatformSetting[] | null) ?? defaultInitialData.platformSettings!,
-          referrals: (fetchedReferrals as Referral[] | null) ?? defaultInitialData.referrals!, 
-          calendarEvents: (fetchedCalendarEvents as CalendarEvent[] | null) ?? defaultInitialData.calendarEvents!,
-          investmentGoals: (fetchedInvestmentGoals as InvestmentGoal[] | null) ?? defaultInitialData.investmentGoals!,
-          bets: (fetchedBets as Bet[] | null) ?? defaultInitialData.bets!,
-        });
-        if (showNotification && allDataFetchedSuccessfully && missingConfigs.length === 0) {
-          addNotification(UI_TEXT_ROMANIAN.dataRefreshed, NotificationType.SUCCESS);
-        } else if (showNotification && (!allDataFetchedSuccessfully || missingConfigs.length > 0)) {
-          let message = UI_TEXT_ROMANIAN.dataRefreshed;
-          if (missingConfigs.length > 0) {
-            message += ` ${PLACEHOLDER_GITHUB_URL_MESSAGE.replace('${dataType}', missingConfigs.join(', '))}`;
-            addNotification(message, NotificationType.WARNING, 10000);
-          } else { 
-            addNotification(UI_TEXT_ROMANIAN.fetchDataError + " Unele date nu au putut fi preluate. Se folosesc valori implicite unde este cazul.", NotificationType.WARNING, 7000);
-          }
-        }
-      }
+      setAppData({
+        globalStats: fetchedGlobalStats as GlobalStats,
+        users: processedUsers,
+        transactions: fetchedTransactions as Transaction[],
+        dailyHistory: fetchedDailyHistory as DailyHistoryRecord[],
+        announcements: fetchedAnnouncements as Announcement[],
+        userMessages: fetchedUserMessages as UserMessage[],
+        investmentAlerts: fetchedInvestmentAlerts as InvestmentAlert[],
+        feedback: fetchedFeedback as FeedbackItem[],
+        platformSettings: fetchedPlatformSettings as PlatformSetting[],
+        referrals: fetchedReferrals as Referral[],
+        calendarEvents: fetchedCalendarEvents as CalendarEvent[],
+        investmentGoals: fetchedInvestmentGoals as InvestmentGoal[],
+        bets: fetchedBets as Bet[],
+      });
       
-      if (missingConfigs.length > 0 && !showNotification) { 
-        const message = `${PLACEHOLDER_GITHUB_URL_MESSAGE.replace('${dataType}', missingConfigs.join(', '))}. Se folosesc date demonstrative locale.`;
-        addNotification(message, NotificationType.INFO, 10000);
+      if (showNotification) {
+        addNotification(UI_TEXT_ROMANIAN.dataRefreshed, NotificationType.SUCCESS);
       }
-
     } catch (e: any) {
-      console.error("Failed to fetch initial app data (global catch):", e);
-      const errorMessage = `${UI_TEXT_ROMANIAN.fetchDataError} ${e.message || ''}. Se folosesc date implicite.`;
+      console.error("Failed to fetch app data from API:", e);
+      const errorMessage = `${UI_TEXT_ROMANIAN.fetchDataError} ${e.message || ''}.`;
       setError(errorMessage);
-      addNotification(errorMessage, NotificationType.ERROR, 7000);
-      setAppData(defaultInitialData as AppData);
+      addNotification(errorMessage, NotificationType.ERROR, 10000);
+      setAppData(defaultInitialData as AppData); // Fallback to default data on API failure
     } finally {
       setLoading(false);
     }
@@ -1456,7 +1458,7 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         type: TransactionType.BETS_RESOLVED,
         status: TransactionStatus.COMPLETED,
         description: `${betsToProcess.length} pariuri pentru data de ${formatDate(date, {day:'numeric', month:'long', year:'numeric'})} au fost procesate. Profit brut: ${formatCurrency(dailyGrossProfit)}.`,
-        details: { date, numBets: betsToProcess.length, dailyGrossProfit, betIds: betsToProcess.map(b => b.id) },
+        details: { date, numBets: betsToProcess.length, betIds: betsToProcess.map(b => b.id) },
     });
     
     addTransactionInternal({

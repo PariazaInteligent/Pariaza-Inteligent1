@@ -1,2 +1,21 @@
-
-[]
+[
+  {
+    "id": "alert_test_1760000000004",
+    "userId": "user_001",
+    "type": "PROFIT_GAIN_PERCENT",
+    "thresholdValue": 10,
+    "referenceInvestedAmount": 1000,
+    "isActive": true,
+    "createdAt": "2025-10-01T11:10:00.000Z",
+    "notes": "Alertă de test pentru a verifica pragurile procentuale. Motiv: testare tabel `investmentAlerts`."
+  },
+  {
+    "id": "alert_test_1760000000005",
+    "userId": "user_001",
+    "type": "INVESTMENT_VALUE_DROPS_BELOW",
+    "thresholdValue": 950,
+    "isActive": false,
+    "createdAt": "2025-09-29T15:00:00.000Z",
+    "notes": "Alertă de test pentru praguri de valoare. Motiv: testare `enum` pentru `InvestmentAlertConditionType`."
+  }
+]

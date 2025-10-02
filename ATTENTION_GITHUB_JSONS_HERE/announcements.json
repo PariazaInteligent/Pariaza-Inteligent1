@@ -1,2 +1,18 @@
-
-[]
+[
+  {
+    "id": "ann_test_1760000000000",
+    "title": "Test Anunț Important - Testare Scalabilitate",
+    "content": "Acesta este un anunț de test pentru a verifica structura bazei de date. Motiv: testare tabel `announcements`.",
+    "createdAt": "2025-10-01T10:00:00.000Z",
+    "createdBy": "admin_global_001",
+    "importance": "HIGH"
+  },
+  {
+    "id": "ann_test_1760000000001",
+    "title": "Test Anunț Mentenanță - Testare Diverse Tipuri",
+    "content": "Anunț de test pentru o mentenanță programată. Motiv: testare `enum` pentru `importance`.",
+    "createdAt": "2025-09-30T12:00:00.000Z",
+    "createdBy": "admin_global_001",
+    "importance": "MEDIUM"
+  }
+]
